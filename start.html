@@ -74,6 +74,10 @@
           <td><strong>Операционная система</strong></td>
           <td>macOS, Windows 10+ или Linux</td>
         </tr>
+        <tr>
+          <td><strong>Git Bash (только Windows)</strong></td>
+          <td>Обязательно. Скачать: <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">git-scm.com/downloads/win</a> — установи с настройками по умолчанию.</td>
+        </tr>
       </tbody>
     </table>
 
@@ -177,6 +181,14 @@
         <tr>
           <td>Ошибка на Windows</td>
           <td>Открой PowerShell от имени администратора: правая кнопка мыши → «Запустить от имени администратора»</td>
+        </tr>
+        <tr>
+          <td>Windows: «requires git-bash»</td>
+          <td>Установи Git: <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">git-scm.com/downloads/win</a> → Next → Next → Install. После установки закрой PowerShell и открой новый.</td>
+        </tr>
+        <tr>
+          <td>Windows: <code>claude</code> не найден после установки</td>
+          <td>Путь не добавился в PATH автоматически. Открой: Пуск → «Переменные среды» → «Переменные среды для текущего пользователя» → <code>Path</code> → «Изменить» → «Создать» → вставь <code>C:\Users\ИМЯ\.local\bin</code> (замени ИМЯ на своё). ОК → перезапусти терминал.</td>
         </tr>
       </tbody>
     </table>
