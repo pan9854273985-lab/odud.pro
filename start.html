@@ -16,7 +16,7 @@
       <a href="index.html#modules" class="nav-link">Программа</a>
       <a href="index.html#pricing" class="nav-link">Стоимость</a>
       <a href="start.html" class="nav-link">Инструкция</a>
-      <a href="https://web.tribute.tg/d/HqE" class="btn-primary" target="_blank" rel="noopener">Купить курс</a>
+      <a href="https://web.tribute.tg/s/Rcz" class="btn-primary" target="_blank" rel="noopener">Купить курс</a>
     </div>
   </nav>
 
@@ -192,64 +192,66 @@
 
     <p>Теперь скачаем файлы курса и сразу запустим первый модуль.</p>
 
-    <h3>Одна команда для старта</h3>
-    <p>Открой терминал, вставь команду ниже и нажми Enter:</p>
+    <h3>Шаг 1. Распакуй файлы курса</h3>
+    <p>После оплаты ты получил доступ к Telegram-каналу. Там закреплён файл <code>hireflow-course.zip</code> — скачай его.</p>
+
+    <p>Распакуй в удобную папку. Рекомендуем «Документы»:</p>
 
     <div class="platform-tabs">
-      <span class="platform-label">Mac / Linux</span>
+      <span class="platform-label">Mac / Linux — через терминал</span>
     </div>
-    <pre><code>cd ~/Documents && \
-curl -L https://github.com/productodud/hireflow-course/releases/latest/download/hireflow-course.zip -o hireflow-course.zip && \
-unzip hireflow-course.zip -d hireflow-course && \
-cd hireflow-course && \
-claude "/start-1-1"</code></pre>
+    <pre><code>cd ~/Documents && unzip ~/Downloads/hireflow-course.zip -d hireflow-course</code></pre>
 
     <div class="platform-tabs">
-      <span class="platform-label">Windows (PowerShell)</span>
+      <span class="platform-label">Или вручную (проще)</span>
     </div>
-    <pre><code>cd ~/Documents
-Invoke-WebRequest -Uri https://github.com/productodud/hireflow-course/releases/latest/download/hireflow-course.zip -OutFile hireflow-course.zip
-Expand-Archive hireflow-course.zip -DestinationPath hireflow-course
-cd hireflow-course
-claude "/start-1-1"</code></pre>
+    <p>Дважды кликни по <code>hireflow-course.zip</code> — архив распакуется сам. Перетащи папку <code>hireflow-course</code> в «Документы».</p>
 
-    <p><strong>Что происходит:</strong></p>
-    <ul>
-      <li>Переходит в папку «Документы»</li>
-      <li>Скачивает файлы курса</li>
-      <li>Распаковывает в папку <code>hireflow-course</code></li>
-      <li>Запускает Claude Code и сразу открывает модуль 1.1</li>
-    </ul>
+    <h3>Шаг 2. Запусти курс</h3>
+    <p>Открой терминал в папке <code>hireflow-course</code>:</p>
 
-    <h3>Альтернатива — скачать вручную</h3>
+    <div class="platform-tabs">
+      <span class="platform-label">Mac</span>
+    </div>
     <ol>
-      <li>Перейди на страницу <a href="https://github.com/productodud/hireflow-course/releases/latest" target="_blank" rel="noopener">Releases на GitHub</a></li>
-      <li>Скачай <code>hireflow-course.zip</code></li>
-      <li>Распакуй в любую удобную папку</li>
-      <li>Открой терминал в папке <code>hireflow-course</code> и запусти:</li>
+      <li>Открой Finder → найди папку <code>hireflow-course</code></li>
+      <li>Правая кнопка мыши → <strong>«Новый терминал в папке»</strong></li>
     </ol>
-    <pre><code>claude "/start-1-1"</code></pre>
+
+    <div class="platform-tabs">
+      <span class="platform-label">Windows</span>
+    </div>
+    <ol>
+      <li>Открой папку <code>hireflow-course</code> в Проводнике</li>
+      <li>Кликни в адресную строку, введи <code>powershell</code>, нажми Enter</li>
+    </ol>
+
+    <p>Теперь введи:</p>
+    <pre><code>claude</code></pre>
+    <p>Claude Code запустится. Затем введи:</p>
+    <pre><code>/start-1-1</code></pre>
+    <p>Курс начнётся автоматически.</p>
 
     <h3>Частые вопросы</h3>
 
     <div class="faq-item">
-      <div class="faq-q">curl не установлен на Mac</div>
-      <div class="faq-a">Попробуй сначала: <code>xcode-select --install</code>. Или установи Homebrew и затем <code>brew install curl</code>.</div>
+      <div class="faq-q">Где найти файл курса?</div>
+      <div class="faq-a">Файл <code>hireflow-course.zip</code> закреплён в Telegram-канале, доступ к которому ты получил после оплаты. Если не можешь найти — напиши в поддержку: <a href="https://t.me/productodud" target="_blank" rel="noopener">t.me/productodud</a></div>
     </div>
 
     <div class="faq-item">
       <div class="faq-q">Можно сохранить файлы в другую папку?</div>
-      <div class="faq-a">Да. Замени <code>~/Documents</code> на любой путь, например <code>~/Desktop</code>. Главное — потом запускать <code>claude</code> именно из папки <code>hireflow-course</code>.</div>
+      <div class="faq-a">Да, в любую. Главное — потом запускать <code>claude</code> именно из папки <code>hireflow-course</code>, иначе курс не найдёт свои файлы.</div>
     </div>
 
     <div class="faq-item">
-      <div class="faq-q">Загрузка прервалась или не удалась</div>
-      <div class="faq-a">Удали неполный файл: <code>rm ~/Documents/hireflow-course.zip</code> — и попробуй снова. Или скачай zip вручную через браузер со страницы Releases.</div>
+      <div class="faq-q">«Новый терминал в папке» не появляется на Mac</div>
+      <div class="faq-a">Включи в Finder: Настройки → Службы → «Новый терминал в папке». Или просто открой Терминал и введи: <code>cd ~/Documents/hireflow-course</code></div>
     </div>
 
     <div class="faq-item">
-      <div class="faq-q">curl не работает на Windows</div>
-      <div class="faq-a">Используй PowerShell-вариант команды выше — там <code>Invoke-WebRequest</code> встроен в систему.</div>
+      <div class="faq-q">Claude Code запустился, но /start-1-1 не работает</div>
+      <div class="faq-a">Убедись, что открыл терминал именно в папке <code>hireflow-course</code> — не в родительской папке. Команда <code>ls</code> должна показывать файлы курса.</div>
     </div>
 
     <div class="next-step">
@@ -257,7 +259,7 @@ claude "/start-1-1"</code></pre>
         <h3>Готово — начинаем курс</h3>
         <p>Claude Code запустится и сразу откроет модуль 1.1 симулятора ProductOdud.</p>
       </div>
-      <a href="https://web.tribute.tg/d/HqE" class="btn-white" target="_blank" rel="noopener">Купить курс →</a>
+      <a href="https://web.tribute.tg/s/Rcz" class="btn-white" target="_blank" rel="noopener">Купить курс →</a>
     </div>
 
   </div>

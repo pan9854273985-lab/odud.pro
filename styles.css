@@ -638,6 +638,27 @@ section {
   padding: 1rem;
 }
 
+/* ── Early Bird pricing ── */
+.price-early-bird {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  margin-bottom: 0.75rem;
+}
+
+.price-original {
+  font-size: 1.4rem;
+  color: var(--text-secondary);
+  text-decoration: line-through;
+  margin-bottom: 0.25rem;
+}
+
 /* ── Author ── */
 .author-card {
   display: flex;
