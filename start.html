@@ -62,6 +62,21 @@
       line-height: 1.6;
     }
     .warn-box strong { color: var(--accent); }
+    .method-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1.75rem 0 1.5rem; }
+    .method-tab {
+      display: block; width: 100%;
+      padding: 1.25rem 1rem; border-radius: 12px;
+      border: 1.5px solid var(--border); background: transparent;
+      color: var(--text-secondary); font-family: inherit;
+      cursor: pointer; transition: all 0.15s; text-align: left;
+    }
+    .method-tab:hover { border-color: var(--accent); color: var(--text-primary); }
+    .method-tab.active { border-color: var(--accent); color: var(--text-primary); background: rgba(196,120,74,0.07); }
+    .method-tab-icon { font-size: 1.6rem; margin-bottom: 0.5rem; display: block; }
+    .method-tab-label { font-size: 1rem; font-weight: 700; display: block; margin-bottom: 0.35rem; }
+    .method-tab-desc { font-size: 0.8rem; color: var(--text-muted); font-weight: 400; line-height: 1.4; }
+    .method-tab.active .method-tab-desc { color: var(--text-secondary); }
+    .method-hint { display: none; }
   </style>
 </head>
 <body>
@@ -92,23 +107,6 @@
       <button class="os-tab" onclick="switchOS('windows')">🪟 Windows</button>
     </div>
   </div>
-
-  <style>
-    .method-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1.75rem 0 1.5rem; }
-    .method-tab {
-      padding: 1.25rem 1rem; border-radius: 12px;
-      border: 1.5px solid var(--border); background: transparent;
-      color: var(--text-secondary); font-family: inherit;
-      cursor: pointer; transition: all 0.15s; text-align: left;
-    }
-    .method-tab:hover { border-color: var(--accent); color: var(--text-primary); }
-    .method-tab.active { border-color: var(--accent); color: var(--text-primary); background: rgba(196,120,74,0.07); }
-    .method-tab-icon { font-size: 1.6rem; margin-bottom: 0.5rem; display: block; }
-    .method-tab-label { font-size: 1rem; font-weight: 700; display: block; margin-bottom: 0.35rem; }
-    .method-tab-desc { font-size: 0.8rem; color: var(--text-muted); font-weight: 400; line-height: 1.4; }
-    .method-tab.active .method-tab-desc { color: var(--text-secondary); }
-    .method-hint { display: none; }
-  </style>
 
   <!-- Docs content -->
   <div class="docs-container">
