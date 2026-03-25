@@ -87,14 +87,450 @@
     <h1>Установка и запуск курса</h1>
     <p>Выбери свою операционную систему — покажем точные шаги.</p>
 
-    <div class="os-tabs">
+    <div class="os-tabs" style="margin-top: 2rem;">
       <button class="os-tab active" onclick="switchOS('mac')">🍎 Mac</button>
       <button class="os-tab" onclick="switchOS('windows')">🪟 Windows</button>
     </div>
   </div>
 
+  <style>
+    .method-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 1.75rem 0 1.5rem; }
+    .method-tab {
+      padding: 1.25rem 1rem; border-radius: 12px;
+      border: 1.5px solid var(--border); background: transparent;
+      color: var(--text-secondary); font-family: inherit;
+      cursor: pointer; transition: all 0.15s; text-align: left;
+    }
+    .method-tab:hover { border-color: var(--accent); color: var(--text-primary); }
+    .method-tab.active { border-color: var(--accent); color: var(--text-primary); background: rgba(196,120,74,0.07); }
+    .method-tab-icon { font-size: 1.6rem; margin-bottom: 0.5rem; display: block; }
+    .method-tab-label { font-size: 1rem; font-weight: 700; display: block; margin-bottom: 0.35rem; }
+    .method-tab-desc { font-size: 0.8rem; color: var(--text-muted); font-weight: 400; line-height: 1.4; }
+    .method-tab.active .method-tab-desc { color: var(--text-secondary); }
+    .method-hint { display: none; }
+  </style>
+
   <!-- Docs content -->
   <div class="docs-container">
+
+    <!-- ══════════════ MAC ══════════════ -->
+    <div id="os-mac" class="os-content active">
+
+      <div class="method-tabs">
+        <button class="method-tab active" onclick="switchMethod('mac','desktop')">
+          <span class="method-tab-icon">🖥️</span>
+          <span class="method-tab-label">Дефолтная</span>
+          <span class="method-tab-desc">Десктопное приложение — терминал и Node.js не нужны</span>
+        </button>
+        <button class="method-tab" onclick="switchMethod('mac','terminal')">
+          <span class="method-tab-icon">⚡</span>
+          <span class="method-tab-label">Хардкор</span>
+          <span class="method-tab-desc">Через терминал — Node.js, npm</span>
+        </button>
+      </div>
+      <p class="method-hint" id="hint-mac-desktop"></p>
+      <p class="method-hint" id="hint-mac-terminal"></p>
+
+      <!-- Mac — Дефолтная -->
+      <div id="mac-desktop">
+        <div class="module-header">
+          <span class="module-tag">Шаг 1</span>
+          <span class="module-time">⏱ ~2 минуты</span>
+        </div>
+        <h2>Установи приложение Claude</h2>
+        <p>Скачай десктопное приложение с <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a> и установи его.</p>
+        <p>Нужна подписка <strong>Claude Pro или Max</strong> (от $20/мес) — бесплатный тариф не поддерживается.</p>
+
+        <div class="module-header" style="margin-top:2.5rem">
+          <span class="module-tag">Шаг 2</span>
+          <span class="module-time">⏱ ~2 минуты</span>
+        </div>
+        <h2>Распакуй файлы курса</h2>
+        <p>Скачай <code>hireflow-course.zip</code> из закреплённого сообщения в Telegram-канале.</p>
+        <p>Дважды кликни по архиву — он распакуется автоматически. Перемести папку <code>hireflow-course</code> в «Документы».</p>
+
+        <div class="module-header" style="margin-top:2.5rem">
+          <span class="module-tag">Шаг 3</span>
+          <span class="module-time">⏱ ~1 минута</span>
+        </div>
+        <h2>Открой курс</h2>
+        <ol>
+          <li>Открой приложение Claude → перейди на вкладку <strong>Code</strong></li>
+          <li>Нажми <strong>+</strong> и выбери папку <code>hireflow-course</code></li>
+          <li>В поле ввода напиши <code>/start-1-1</code> и нажми Enter</li>
+        </ol>
+        <p>Курс начнётся автоматически.</p>
+
+        <div class="next-step">
+          <div class="next-step-text">
+            <h3>Готово — начинаем курс</h3>
+            <p>Claude откроет модуль 1.1.</p>
+          </div>
+          <a href="https://t.me/tribute/app?startapp=sRcz" onclick="ym(108214180,'reachGoal','onclick')" class="btn-white" target="_blank" rel="noopener">Купить курс →</a>
+        </div>
+      </div><!-- /mac-desktop -->
+
+      <!-- Mac — Хардкор -->
+      <div id="mac-terminal" style="display:none">
+
+      <div class="module-header">
+        <span class="module-tag">Шаг 1</span>
+        <span class="module-time">⏱ ~15 минут</span>
+      </div>
+      <h2>Установка Claude Code</h2>
+
+      <h3>Что нужно</h3>
+      <table class="docs-table">
+        <thead><tr><th>Требование</th><th>Подробности</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Подписка Claude Pro или Max</strong></td>
+            <td>От $20/мес. Зарегистрироваться: <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>. Бесплатный тариф не поддерживается.</td>
+          </tr>
+          <tr>
+            <td><strong>Node.js 18+</strong></td>
+            <td>Бесплатно. Скачать: <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a></td>
+          </tr>
+          <tr>
+            <td><strong>macOS</strong></td>
+            <td>Любая версия macOS 11+</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Как открыть Терминал</h3>
+      <ol>
+        <li>Нажми <code>Cmd + Space</code> — откроется Spotlight</li>
+        <li>Введи «Терминал» и нажми Enter</li>
+      </ol>
+
+      <h3>Шаг 1. Проверь Node.js</h3>
+      <pre><code>node --version</code></pre>
+      <p>Если видишь <code>v18.0.0</code> или выше — переходи к шагу 3. Если команда не найдена — переходи к шагу 2.</p>
+
+      <h3>Шаг 2. Установи Node.js (если нужно)</h3>
+      <p>Скачай LTS-версию с <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> и запусти установщик. Или через Homebrew:</p>
+      <pre><code>brew install node</code></pre>
+      <div class="info-box"><strong>Важно:</strong> после установки закрой Терминал и открой новый.</div>
+
+      <h3>Шаг 3. Установи Claude Code</h3>
+      <pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
+      <p>Дождись сообщения <code>Installation complete!</code>.</p>
+      <div class="warn-box">
+        <strong>🇷🇺 Если видишь HTML-код вместо установки</strong> — это геоблокировка. Используй npm:
+        <pre style="margin-top:0.75rem"><code>npm install -g @anthropic-ai/claude-code</code></pre>
+        Для первого входа в аккаунт может потребоваться VPN — только на время авторизации в браузере.
+      </div>
+
+      <h3>Шаг 4. Проверь установку</h3>
+      <pre><code>claude --version</code></pre>
+      <p>Если видишь номер версии — готово. Если <code>command not found</code> — закрой Терминал, открой новый.</p>
+
+      <h3>Шаг 5. Войди в аккаунт</h3>
+      <pre><code>claude</code></pre>
+      <ol>
+        <li>Выбери <strong>«Учётная запись Claude с подпиской»</strong> (не Anthropic Console)</li>
+        <li>Войди через браузер</li>
+        <li>Выбери тему — <strong>Dark mode</strong> или любую другую, нажми Enter</li>
+      </ol>
+
+      <h3>Шаг 6. Проверь что всё работает</h3>
+      <pre><code>/doctor</code></pre>
+      <p>Всё должно быть отмечено зелёными галочками.</p>
+
+      <h3>Устранение проблем</h3>
+      <table class="docs-table">
+        <thead><tr><th>Ошибка</th><th>Что делать</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><code>command not found: claude</code></td>
+            <td>Закрой Терминал, открой новый. Если не помогает — добавь в <code>~/.zshrc</code>: <code>export PATH=$HOME/.local/bin:$PATH</code>, потом <code>source ~/.zshrc</code></td>
+          </tr>
+          <tr>
+            <td>«Требуется подписка»</td>
+            <td>Убедись что подписка активна на <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>.</td>
+          </tr>
+          <tr>
+            <td>«Новый терминал в папке» не появляется в Finder</td>
+            <td>Finder → Настройки → Службы → включи «Новый терминал в папке»</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="module-header" style="margin-top:3rem">
+        <span class="module-tag">Шаг 2</span>
+        <span class="module-time">⏱ ~5 минут</span>
+      </div>
+      <h2>Скачать курс и начать</h2>
+
+      <h3>1. Распакуй файлы курса</h3>
+      <p>Скачай <code>hireflow-course.zip</code> из закреплённого сообщения в Telegram-канале.</p>
+      <p>Дважды кликни по архиву — он распакуется автоматически. Перемести папку <code>hireflow-course</code> в «Документы».</p>
+
+      <h3>2. Открой терминал в папке курса</h3>
+      <ol>
+        <li>Открой Finder → найди папку <code>hireflow-course</code></li>
+        <li>Правая кнопка мыши → <strong>«Новый терминал в папке»</strong></li>
+      </ol>
+
+      <h3>3. Запусти курс</h3>
+      <pre><code>claude</code></pre>
+      <p>После запуска введи:</p>
+      <pre><code>/start-1-1</code></pre>
+
+      <div class="faq-item">
+        <div class="faq-q">/start-1-1 не работает</div>
+        <div class="faq-a">Убедись что открыл терминал именно в папке <code>hireflow-course</code>. Команда <code>ls</code> должна показывать файлы курса.</div>
+      </div>
+
+      <div class="next-step">
+        <div class="next-step-text">
+          <h3>Готово — начинаем курс</h3>
+          <p>Claude Code запустится и откроет модуль 1.1.</p>
+        </div>
+        <a href="https://t.me/tribute/app?startapp=sRcz" onclick="ym(108214180,'reachGoal','onclick')" class="btn-white" target="_blank" rel="noopener">Купить курс →</a>
+      </div>
+
+      </div><!-- /mac-terminal -->
+    </div><!-- /os-mac -->
+
+
+    <!-- ══════════════ WINDOWS ══════════════ -->
+    <div id="os-windows" class="os-content">
+
+      <div class="method-tabs">
+        <button class="method-tab active" onclick="switchMethod('windows','desktop')">
+          <span class="method-tab-icon">🖥️</span>
+          <span class="method-tab-label">Дефолтная</span>
+          <span class="method-tab-desc">Десктопное приложение — терминал и Node.js не нужны</span>
+        </button>
+        <button class="method-tab" onclick="switchMethod('windows','terminal')">
+          <span class="method-tab-icon">⚡</span>
+          <span class="method-tab-label">Хардкор</span>
+          <span class="method-tab-desc">Через терминал — Git Bash, Node.js, npm</span>
+        </button>
+      </div>
+      <p class="method-hint" id="hint-windows-desktop"></p>
+      <p class="method-hint" id="hint-windows-terminal"></p>
+
+      <!-- Windows — Дефолтная -->
+      <div id="windows-desktop">
+        <div class="module-header">
+          <span class="module-tag">Шаг 1</span>
+          <span class="module-time">⏱ ~2 минуты</span>
+        </div>
+        <h2>Установи приложение Claude</h2>
+        <p>Скачай десктопное приложение с <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a> и установи его.</p>
+        <p>Нужна подписка <strong>Claude Pro или Max</strong> (от $20/мес) — бесплатный тариф не поддерживается.</p>
+
+        <div class="module-header" style="margin-top:2.5rem">
+          <span class="module-tag">Шаг 2</span>
+          <span class="module-time">⏱ ~2 минуты</span>
+        </div>
+        <h2>Распакуй файлы курса</h2>
+        <p>Скачай <code>hireflow-course.zip</code> из закреплённого сообщения в Telegram-канале.</p>
+        <p>Правая кнопка по архиву → <strong>«Извлечь всё»</strong> → выбери «Документы» → «Извлечь».</p>
+        <div class="info-box"><strong>Важно:</strong> не открывай файлы внутри архива напрямую — нужно именно распаковать.</div>
+
+        <div class="module-header" style="margin-top:2.5rem">
+          <span class="module-tag">Шаг 3</span>
+          <span class="module-time">⏱ ~1 минута</span>
+        </div>
+        <h2>Открой курс</h2>
+        <ol>
+          <li>Открой приложение Claude → перейди на вкладку <strong>Code</strong></li>
+          <li>Нажми <strong>+</strong> и выбери папку <code>hireflow-course</code></li>
+          <li>В поле ввода напиши <code>/start-1-1</code> и нажми Enter</li>
+        </ol>
+        <p>Курс начнётся автоматически.</p>
+
+        <div class="next-step">
+          <div class="next-step-text">
+            <h3>Готово — начинаем курс</h3>
+            <p>Claude откроет модуль 1.1.</p>
+          </div>
+          <a href="https://t.me/tribute/app?startapp=sRcz" onclick="ym(108214180,'reachGoal','onclick')" class="btn-white" target="_blank" rel="noopener">Купить курс →</a>
+        </div>
+      </div><!-- /windows-desktop -->
+
+      <!-- Windows — Хардкор -->
+      <div id="windows-terminal" style="display:none">
+
+      <div class="warn-box">
+        <strong>⚠️ Важно:</strong> Claude Code на Windows требует <strong>Git Bash</strong>. Все команды — только в Git Bash, не в PowerShell или CMD.
+      </div>
+
+      <div class="module-header">
+        <span class="module-tag">Шаг 1</span>
+        <span class="module-time">⏱ ~20 минут</span>
+      </div>
+      <h2>Установка Claude Code</h2>
+
+      <h3>Что нужно</h3>
+      <table class="docs-table">
+        <thead><tr><th>Требование</th><th>Подробности</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>Подписка Claude Pro или Max</strong></td>
+            <td>От $20/мес. Зарегистрироваться: <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>.</td>
+          </tr>
+          <tr>
+            <td><strong>Node.js 18+</strong></td>
+            <td>Бесплатно. Скачать: <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a></td>
+          </tr>
+          <tr>
+            <td><strong>Git Bash — обязательно</strong></td>
+            <td><a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">git-scm.com/downloads/win</a> → Next → Install</td>
+          </tr>
+          <tr>
+            <td><strong>Windows 10+</strong></td>
+            <td>64-bit</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Шаг 1. Установи Git Bash</h3>
+      <p>Скачай с <a href="https://git-scm.com/downloads/win" target="_blank" rel="noopener">git-scm.com/downloads/win</a> → Next → Install. После установки открой <strong>Git Bash</strong> из меню Пуск.</p>
+
+      <h3>Шаг 2. Проверь Node.js</h3>
+      <pre><code>node --version</code></pre>
+      <p>Если <code>v18+</code> — переходи к шагу 4. Если не найдена — шаг 3.</p>
+
+      <h3>Шаг 3. Установи Node.js (если нужно)</h3>
+      <p>Скачай LTS с <a href="https://nodejs.org" target="_blank" rel="noopener">nodejs.org</a> и установи. Закрой Git Bash и открой снова.</p>
+
+      <h3>Шаг 4. Установи Claude Code</h3>
+      <pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
+      <div class="warn-box">
+        <strong>🇷🇺 Геоблокировка?</strong> Если вместо установки появился HTML — используй npm:
+        <pre style="margin-top:0.75rem"><code>npm install -g @anthropic-ai/claude-code</code></pre>
+        Для первого входа может потребоваться VPN — только на время авторизации в браузере.
+      </div>
+
+      <h3>Шаг 5. Войди в аккаунт</h3>
+      <pre><code>claude</code></pre>
+      <ol>
+        <li>Выбери <strong>«Учётная запись Claude с подпиской»</strong></li>
+        <li>Войди через браузер</li>
+        <li>Выбери тему — Dark mode или любую другую, нажми Enter</li>
+      </ol>
+
+      <h3>Шаг 6. Проверь</h3>
+      <pre><code>/doctor</code></pre>
+      <p>Всё должно быть отмечено зелёными галочками.</p>
+
+      <h3>Устранение проблем</h3>
+      <table class="docs-table">
+        <thead><tr><th>Ошибка</th><th>Что делать</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Красные ошибки синтаксиса</td>
+            <td>Ты в PowerShell. Закрой, открой Git Bash — повтори.</td>
+          </tr>
+          <tr>
+            <td><code>requires git-bash</code></td>
+            <td>Установи Git Bash и повтори из него.</td>
+          </tr>
+          <tr>
+            <td><code>claude: command not found</code></td>
+            <td>Пуск → «Переменные среды» → Path → добавь <code>C:\Users\ИМЯ\.local\bin</code>. Закрой Git Bash, открой снова.</td>
+          </tr>
+          <tr>
+            <td>«Требуется подписка»</td>
+            <td>Проверь что подписка активна на <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>.</td>
+          </tr>
+          <tr>
+            <td>Ничего не помогает</td>
+            <td>Напиши со скриншотом: <a href="https://t.me/productodud" target="_blank" rel="noopener">t.me/productodud</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="module-header" style="margin-top:3rem">
+        <span class="module-tag">Шаг 2</span>
+        <span class="module-time">⏱ ~5 минут</span>
+      </div>
+      <h2>Скачать курс и начать</h2>
+
+      <h3>1. Распакуй файлы курса</h3>
+      <p>Скачай <code>hireflow-course.zip</code> из Telegram-канала.</p>
+      <p>Правая кнопка по архиву → <strong>«Извлечь всё»</strong> → Документы → «Извлечь».</p>
+      <div class="info-box"><strong>Важно:</strong> не открывай файлы внутри архива — нужно именно распаковать.</div>
+
+      <h3>2. Открой Git Bash в папке курса</h3>
+      <ol>
+        <li>Открой папку <code>hireflow-course</code> в Проводнике</li>
+        <li>Правая кнопка на пустом месте → <strong>«Git Bash Here»</strong></li>
+      </ol>
+      <div class="info-box">Нет «Git Bash Here»? Открой Git Bash из Пуска и введи: <code>cd ~/Documents/hireflow-course</code></div>
+
+      <h3>3. Запусти курс</h3>
+      <pre><code>claude</code></pre>
+      <pre><code>/start-1-1</code></pre>
+
+      <div class="faq-item">
+        <div class="faq-q">«Git Bash Here» не появляется</div>
+        <div class="faq-a">Переустанови Git — на шаге «Windows Explorer integration» убедись что галочка стоит.</div>
+      </div>
+
+      <div class="next-step">
+        <div class="next-step-text">
+          <h3>Готово — начинаем курс</h3>
+          <p>Claude Code запустится и откроет модуль 1.1.</p>
+        </div>
+        <a href="https://t.me/tribute/app?startapp=sRcz" onclick="ym(108214180,'reachGoal','onclick')" class="btn-white" target="_blank" rel="noopener">Купить курс →</a>
+      </div>
+
+      </div><!-- /windows-terminal -->
+    </div><!-- /os-windows -->
+
+  </div><!-- /docs-container -->
+
+      <div class="module-header">
+        <span class="module-tag">Шаг 1</span>
+        <span class="module-time">⏱ ~5 минут</span>
+      </div>
+      <h2>Установи приложение Claude</h2>
+
+      <p>Скачай десктопное приложение с <a href="https://claude.ai/download" target="_blank" rel="noopener">claude.ai/download</a> и установи его. Нужна подписка <strong>Claude Pro или Max</strong> (от $20/мес).</p>
+
+      <div class="module-header" style="margin-top:2.5rem">
+        <span class="module-tag">Шаг 2</span>
+        <span class="module-time">⏱ ~2 минуты</span>
+      </div>
+      <h2>Распакуй файлы курса</h2>
+
+      <p>Скачай <code>hireflow-course.zip</code> из закреплённого сообщения в Telegram-канале курса.</p>
+      <p><strong>Mac:</strong> дважды кликни по архиву — он распакуется автоматически. Перемести папку <code>hireflow-course</code> в «Документы».</p>
+      <p><strong>Windows:</strong> правая кнопка по архиву → <strong>«Извлечь всё»</strong> → выбери «Документы» → «Извлечь».</p>
+      <div class="info-box"><strong>Важно:</strong> не открывай файлы внутри архива напрямую — нужно именно распаковать.</div>
+
+      <div class="module-header" style="margin-top:2.5rem">
+        <span class="module-tag">Шаг 3</span>
+        <span class="module-time">⏱ ~1 минута</span>
+      </div>
+      <h2>Открой курс в приложении</h2>
+
+      <ol>
+        <li>Открой приложение Claude → перейди на вкладку <strong>Code</strong></li>
+        <li>Нажми <strong>+</strong> и выбери папку <code>hireflow-course</code></li>
+        <li>В поле ввода напиши: <code>/start-1-1</code></li>
+      </ol>
+      <p>Курс начнётся автоматически.</p>
+
+      <div class="next-step">
+        <div class="next-step-text">
+          <h3>Готово — начинаем курс</h3>
+          <p>Claude Code откроет модуль 1.1.</p>
+        </div>
+        <a href="https://t.me/tribute/app?startapp=sRcz" onclick="ym(108214180,'reachGoal','onclick')" class="btn-white" target="_blank" rel="noopener">Купить курс →</a>
+      </div>
+
+    </div><!-- /method-desktop -->
+
+
+    <!-- ══════════════ МЕТОД: ТЕРМИНАЛ ══════════════ -->
+    <div id="method-terminal" class="method-content" style="display:none">
 
     <!-- ══════════════ MAC ══════════════ -->
     <div id="os-mac" class="os-content active">
@@ -143,6 +579,11 @@
       <h3>Шаг 3. Установи Claude Code</h3>
       <pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
       <p>Дождись сообщения <code>Installation complete!</code>.</p>
+      <div class="warn-box">
+        <strong>🇷🇺 Если видишь HTML-код вместо установки</strong> — это геоблокировка: claude.ai недоступен из России напрямую. Используй альтернативный способ установки через npm:
+        <pre style="margin-top:0.75rem"><code>npm install -g @anthropic-ai/claude-code</code></pre>
+        Для первого входа в аккаунт (шаг 5) может потребоваться VPN — только на время авторизации в браузере, потом можно выключить.
+      </div>
 
       <h3>Шаг 4. Проверь установку</h3>
       <pre><code>claude --version</code></pre>
@@ -153,7 +594,7 @@
       <ol>
         <li>Выбери <strong>«Учётная запись Claude с подпиской»</strong> (не Anthropic Console)</li>
         <li>Войди через браузер</li>
-        <li>Выбери стиль отображения текста</li>
+        <li>Выбери стиль отображения текста — выбери <strong>«Dark mode»</strong> или любой другой понравившийся вариант, нажми Enter</li>
       </ol>
 
       <h3>Шаг 6. Проверь что всё работает</h3>
@@ -193,8 +634,6 @@
       <h3>1. Распакуй файлы курса</h3>
       <p>В Telegram-канале курса закреплён файл <code>hireflow-course.zip</code> — скачай его.</p>
       <p>Дважды кликни по архиву — он распакуется автоматически. Перемести папку <code>hireflow-course</code> в «Документы».</p>
-      <p>Или через Терминал:</p>
-      <pre><code>cd ~/Documents && unzip ~/Downloads/hireflow-course.zip -d hireflow-course</code></pre>
 
       <h3>2. Открой терминал в папке курса</h3>
       <ol>
@@ -287,6 +726,11 @@
       <pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
       <p>Дождись сообщения <code>Installation complete!</code>.</p>
       <div class="info-box"><strong>Не используй PowerShell для этой команды</strong> — только Git Bash. PowerShell выдаст ошибки синтаксиса.</div>
+      <div class="warn-box">
+        <strong>🇷🇺 Если видишь HTML-код вместо установки</strong> — это геоблокировка: claude.ai недоступен из России напрямую. Используй альтернативный способ установки через npm:
+        <pre style="margin-top:0.75rem"><code>npm install -g @anthropic-ai/claude-code</code></pre>
+        Для первого входа в аккаунт (шаг 6) может потребоваться VPN — только на время авторизации в браузере, потом можно выключить.
+      </div>
 
       <h3>Шаг 5. Проверь установку</h3>
       <pre><code>claude --version</code></pre>
@@ -297,7 +741,7 @@
       <ol>
         <li>Выбери <strong>«Учётная запись Claude с подпиской»</strong> (не Anthropic Console)</li>
         <li>Войди через браузер</li>
-        <li>Выбери стиль отображения текста</li>
+        <li>Выбери стиль отображения текста — выбери <strong>«Dark mode»</strong> или любой другой понравившийся вариант, нажми Enter</li>
       </ol>
 
       <h3>Шаг 7. Проверь что всё работает</h3>
@@ -326,6 +770,10 @@
             <td>Убедись что подписка активна на <a href="https://claude.ai" target="_blank" rel="noopener">claude.ai</a>. Попробуй выйти и войти снова.</td>
           </tr>
           <tr>
+            <td>Curl скачал HTML вместо установки («App unavailable in region»)</td>
+            <td>Геоблокировка. Установи через npm: <code>npm install -g @anthropic-ai/claude-code</code>. Для входа в аккаунт используй VPN.</td>
+          </tr>
+          <tr>
             <td>Ничего не помогает</td>
             <td>Напиши в поддержку со скриншотом ошибки: <a href="https://t.me/productodud" target="_blank" rel="noopener">t.me/productodud</a></td>
           </tr>
@@ -340,7 +788,8 @@
 
       <h3>1. Распакуй файлы курса</h3>
       <p>В Telegram-канале курса закреплён файл <code>hireflow-course.zip</code> — скачай его.</p>
-      <p>Дважды кликни по архиву — он распакуется автоматически. Перемести папку <code>hireflow-course</code> в «Документы».</p>
+      <p>Правая кнопка мыши по архиву → <strong>«Извлечь всё»</strong> → выбери папку «Документы» → «Извлечь».</p>
+      <div class="info-box"><strong>Важно:</strong> не открывай файлы внутри архива напрямую — нужно именно распаковать через «Извлечь всё».</div>
 
       <h3>2. Открой Git Bash в папке курса</h3>
       <ol>
@@ -381,9 +830,6 @@
         <a href="https://t.me/tribute/app?startapp=sRcz" onclick="ym(108214180,'reachGoal','onclick')" class="btn-white" target="_blank" rel="noopener">Купить курс →</a>
       </div>
 
-    </div><!-- /os-windows -->
-
-  </div><!-- /docs-container -->
 
   <!-- Footer -->
   <footer>
@@ -392,10 +838,22 @@
 
   <script>
     function switchOS(os) {
-      document.querySelectorAll('.os-tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.page-hero .os-tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelector('.page-hero .os-tab[onclick="switchOS(\'' + os + '\')"]').classList.add('active');
       document.querySelectorAll('.os-content').forEach(function(c) { c.classList.remove('active'); });
-      document.querySelector('[onclick="switchOS(\'' + os + '\')"]').classList.add('active');
       document.getElementById('os-' + os).classList.add('active');
+    }
+
+    function switchMethod(os, method) {
+      // переключаем под-табы внутри OS
+      document.querySelectorAll('#os-' + os + ' .method-tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelector('#os-' + os + ' .method-tab[onclick="switchMethod(\'' + os + '\',\'' + method + '\')"]').classList.add('active');
+      // подсказки
+      document.getElementById('hint-' + os + '-desktop').style.display = method === 'desktop' ? '' : 'none';
+      document.getElementById('hint-' + os + '-terminal').style.display = method === 'terminal' ? '' : 'none';
+      // контент
+      document.getElementById(os + '-desktop').style.display = method === 'desktop' ? 'block' : 'none';
+      document.getElementById(os + '-terminal').style.display = method === 'terminal' ? 'block' : 'none';
     }
   </script>
 
