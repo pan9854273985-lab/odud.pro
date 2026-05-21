@@ -570,6 +570,14 @@ section {
   text-decoration: underline;
 }
 
+.req-card--highlight {
+  background: var(--accent);
+  border-left-color: transparent;
+}
+.req-card--highlight .req-name { color: #fff; }
+.req-card--highlight .req-detail { color: rgba(255,255,255,0.85); }
+.req-card--highlight a { color: #fff; text-decoration: underline; }
+
 /* ── Pricing ── */
 .pricing-section {
   background: var(--bg-secondary);
