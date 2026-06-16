@@ -151,7 +151,7 @@
         <div class="persona-card">
           <div class="persona-emoji"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4784A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
           <div class="persona-role">Маркетолог</div>
-          <div class="persona-desc">Генерируешь контент, анализируешь аудиторию и готовишь материалы для кампаний в разы быстрее.</div>
+          <div class="persona-desc">Генерируешь контент, анализируешь аудиторию и готовишь материалы для кампаний в разы быстрее. Для маркетологов есть отдельный курс: <a href="https://www.odud.marketing" target="_blank" rel="noopener" style="color:var(--accent); font-weight:600">odud.marketing →</a></div>
         </div>
         <div class="persona-card">
           <div class="persona-emoji"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#C4784A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div>
@@ -161,6 +161,93 @@
       </div>
     </div>
   </section>
+
+  <!-- Bridge: Codex-версия и для маркетологов -->
+  <section class="bridge-section">
+    <div class="container">
+      <div class="section-label">Две платформы и две аудитории</div>
+      <h2 class="section-title">Курс есть в нескольких версиях</h2>
+      <p class="section-subtitle">Та же программа, тот же симулятор HireFlow — выбери удобный инструмент или версию под свою профессию.</p>
+
+      <div class="bridge-grid">
+        <a href="https://odud.online" target="_blank" rel="noopener" class="bridge-card">
+          <div class="bridge-tag">OpenAI Codex</div>
+          <h3 class="bridge-title">Та же программа на Codex</h3>
+          <p class="bridge-desc">Если у тебя ChatGPT Plus вместо Claude Pro — или просто хочется работать через Codex CLI. История та же: стартап HireFlow, те же персонажи, агенты и вайбкодинг. Codex работает нативно на Windows.</p>
+          <span class="bridge-cta">→ Перейти на odud.online</span>
+        </a>
+
+        <a href="https://www.odud.marketing" target="_blank" rel="noopener" class="bridge-card">
+          <div class="bridge-tag">Для маркетологов</div>
+          <h3 class="bridge-title">Отдельный курс — odud.marketing</h3>
+          <p class="bridge-desc">Если ты в маркетинге, не в продукте — есть курс под маркетинговые задачи: контент, аудитория, кампании, исследования. Та же концепция «учись прямо в инструменте», но кейсы про маркетинг.</p>
+          <span class="bridge-cta">→ Перейти на odud.marketing</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .bridge-section { padding: 5rem 0; background: var(--bg); }
+    .bridge-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+    .bridge-card {
+      display: block;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.75rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .bridge-card:hover {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      transform: translateY(-3px);
+    }
+    .bridge-tag {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-light);
+      border: 1px solid rgba(196, 120, 74, 0.3);
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      margin-bottom: 1rem;
+    }
+    .bridge-title {
+      font-family: 'Roboto Condensed', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.6rem;
+      color: var(--text);
+    }
+    .bridge-desc {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+    .bridge-cta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--accent);
+    }
+    @media (max-width: 720px) {
+      .bridge-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 
   <!-- What you'll learn -->
   <section>
