@@ -415,6 +415,51 @@
   </style>
 
   <script>
+    // ── Copy boss letter ──
+    function copyLetter(btn) {
+      const text = document.getElementById('letterText').innerText;
+      const done = () => { const t = btn.textContent; btn.textContent = 'Скопировано ✓'; setTimeout(() => btn.textContent = t, 2000); };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+      } else { fallbackCopy(text, done); }
+    }
+    function fallbackCopy(text, done) {
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); done(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+    // ── Company request → Telegram (via /api/lead), email fallback ──
+    async function sendCompanyRequest(form) {
+      const f = form.elements;
+      const btn = form.querySelector('button[type=submit]');
+      const status = document.getElementById('cfStatus');
+      const payload = {
+        name: f.name.value, company: f.company.value, email: f.email.value,
+        count: f.count.value, comment: f.comment.value,
+        website: f.website ? f.website.value : '',
+        source: location.hostname, page: location.href
+      };
+      const orig = btn.textContent;
+      btn.disabled = true; btn.textContent = 'Отправляем…';
+      if (status) status.textContent = '';
+      try {
+        const r = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        if (!r.ok) throw new Error('bad');
+        form.reset();
+        btn.textContent = 'Заявка отправлена ✓';
+        if (status) status.textContent = 'Спасибо! Свяжемся с тобой в течение дня.';
+        if (window.ym) ym(108214180, 'reachGoal', 'company_request');
+      } catch (e) {
+        const body = 'Имя: ' + payload.name + '\nКомпания: ' + payload.company + '\nEmail: ' + payload.email +
+          '\nСотрудников: ' + (payload.count || '—') + '\nКомментарий: ' + (payload.comment || '—');
+        window.location.href = 'mailto:pan9854273985@gmail.com?subject=' + encodeURIComponent('Заявка на оплату курса от компании') + '&body=' + encodeURIComponent(body);
+        btn.disabled = false; btn.textContent = orig;
+      }
+      return false;
+    }
+
     (function() {
       const pages = document.querySelectorAll('.review-page');
       const dots = document.querySelectorAll('#sliderDots .slider-dot');
@@ -591,22 +636,106 @@
       <div class="section-label">Стоимость</div>
       <h2 class="section-title">Один платёж — постоянный доступ</h2>
 
-      <div class="price-card">
-        <div class="price-early-bird">🔥 Early Bird</div>
-        <div class="price-label">Полный курс</div>
-        <div class="price-original">10 990 ₽</div>
-        <div class="price-amount">8 990 ₽</div>
-        <div class="price-note">Единоразово · доступ навсегда · цена вырастет</div>
-        <ul class="price-includes">
-          <li><span class="check">✓</span> 5 блоков, 26 модулей и практических заданий</li>
-          <li><span class="check">✓</span> Симулятор IT-компании HireFlow</li>
-          <li><span class="check">✓</span> Готовые команды и шаблоны</li>
-          <li><span class="check">✓</span> Инструкция по установке</li>
-          <li><span class="check">✓</span> Доступ к обновлениям курса</li>
-        </ul>
-        <a href="https://telegram.me/tribute/app?startapp=sRcz" onclick="ym(108214180,'reachGoal','onclick')" class="btn-primary" target="_blank" rel="noopener">
-          Купить через Telegram
-        </a>
+      <p class="section-subtitle" style="max-width:600px;margin:0 auto 8px;">Купи себе сам или оформи оплату от компании по счёту. В обоих случаях доступ навсегда и все обновления.</p>
+
+      <div class="pricing-grid">
+        <div class="price-card price-card--personal">
+          <div class="price-early-bird">🔥 Early Bird</div>
+          <div class="price-label">Себе — оплачиваю сам</div>
+          <div class="price-original">13 900 ₽</div>
+          <div class="price-amount">8 990 ₽</div>
+          <div class="price-note">Единоразово · доступ навсегда · цена вырастет</div>
+          <ul class="price-includes">
+            <li><span class="check">✓</span> 5 блоков, 26 модулей и практических заданий</li>
+            <li><span class="check">✓</span> Симулятор IT-компании HireFlow</li>
+            <li><span class="check">✓</span> Готовые команды и шаблоны</li>
+            <li><span class="check">✓</span> Инструкция по установке</li>
+            <li><span class="check">✓</span> Доступ к обновлениям курса</li>
+          </ul>
+          <a href="https://telegram.me/tribute/app?startapp=sRcz" onclick="ym(108214180,'reachGoal','onclick')" class="btn-primary" target="_blank" rel="noopener">
+            Оплатить через Telegram
+          </a>
+        </div>
+
+        <div class="price-card price-card--company">
+          <div class="price-tag">🏢 Для компании</div>
+          <div class="price-label">Оплата от компании</div>
+          <div class="price-amount">13 900 ₽</div>
+          <div class="price-note">Оплата по счёту от юрлица · закрывающие документы</div>
+          <ul class="price-includes">
+            <li><span class="check">✓</span> Всё, что в личном тарифе</li>
+            <li><span class="check">✓</span> Счёт, договор и акт для бухгалтерии</li>
+            <li><span class="check">✓</span> Оплата по безналу от юрлица</li>
+            <li><span class="check">✓</span> Помощь с оформлением документов</li>
+            <li><span class="check">✓</span> Шаблон письма руководителю ниже</li>
+          </ul>
+          <a href="#company-form" class="btn-secondary">Оставить заявку →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Convince your boss + company request -->
+  <section class="boss-section">
+    <div class="container">
+      <div class="section-label">Оплата от компании</div>
+      <h2 class="section-title">Как убедить шефа</h2>
+      <p class="section-subtitle">Курс окупается сэкономленным временем уже в первый месяц. Вот аргументы и готовое письмо — просто перешли руководителю.</p>
+
+      <div class="boss-grid">
+        <div class="boss-card">
+          <div class="boss-num">01</div>
+          <h3>Окупается за месяц</h3>
+          <p>Рутина, которая занимала дни — PRD, исследования, отчёты, питч-деки — делается за часы. Сэкономленное время продакта окупает курс сразу.</p>
+        </div>
+        <div class="boss-card">
+          <div class="boss-num">02</div>
+          <h3>Навыки остаются в компании</h3>
+          <p>После курса остаются готовые AI-агенты и шаблоны под задачи. Ими пользуется вся команда, а не только тот, кто прошёл обучение.</p>
+        </div>
+        <div class="boss-card">
+          <div class="boss-num">03</div>
+          <h3>Вся команда в едином контексте</h3>
+          <p>Общая память проекта (CLAUDE.md) держит продуктовый контекст в одном месте. Новые сотрудники онбордятся быстрее.</p>
+        </div>
+      </div>
+
+      <div class="letter">
+        <div class="letter-head">
+          <span class="letter-title">✉️ Готовое письмо руководителю</span>
+          <button class="letter-copy" onclick="copyLetter(this)">Скопировать</button>
+        </div>
+        <div class="letter-body" id="letterText">Тема: Обучение по AI-инструментам для продакт-менеджмента
+
+Привет! Хочу пройти практический курс по Claude Code для продактов — обучение целиком построено на реальных задачах внутри симулятора IT-компании.
+
+Зачем это нам:
+• Рутинные задачи (PRD, исследования, питч-деки, отчёты) будут делаться в разы быстрее — часы вместо дней.
+• Я освою AI-агентов и соберу шаблоны, которые останутся в команде и которыми смогут пользоваться коллеги.
+• Настроим единый контекст проекта через общую память (CLAUDE.md).
+
+Формат: онлайн, практика внутри симулятора, доступ навсегда. Стоимость для компании — 13 900 ₽, оплата по счёту от юрлица с закрывающими документами.
+
+Курс окупается сэкономленным временем уже в первый месяц. После прохождения поделюсь результатами и наработками с командой.</div>
+      </div>
+
+      <div class="company-form" id="company-form">
+        <h3>Заявка на оплату от компании</h3>
+        <p>Оставь контакты — пришлём счёт и документы для бухгалтерии. Обычно отвечаем в течение дня.</p>
+        <form onsubmit="return sendCompanyRequest(this)">
+          <div class="cf-row">
+            <input type="text" name="name" placeholder="Имя" required />
+            <input type="text" name="company" placeholder="Компания" required />
+          </div>
+          <div class="cf-row">
+            <input type="email" name="email" placeholder="Email для счёта" required />
+            <input type="text" name="count" placeholder="Сколько сотрудников (необязательно)" />
+          </div>
+          <textarea name="comment" placeholder="Комментарий (необязательно)" rows="3"></textarea>
+          <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+          <button type="submit" class="btn-primary">Отправить заявку</button>
+          <p class="cf-note" id="cfStatus" aria-live="polite"></p>
+        </form>
       </div>
     </div>
   </section>
