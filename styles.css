@@ -1260,3 +1260,15 @@ p code, li code {
   .boss-grid { grid-template-columns: 1fr; }
   .company-form .cf-row { grid-template-columns: 1fr; }
 }
+
+/* ── Lead success modal ── */
+.lead-modal { position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; padding: 24px; animation: lm-fade 0.2s ease; }
+.lead-modal[hidden] { display: none; }
+@keyframes lm-fade { from { opacity: 0; } to { opacity: 1; } }
+.lead-modal-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 40px 34px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 24px 60px rgba(0,0,0,0.5); animation: lm-pop 0.25s ease; }
+@keyframes lm-pop { from { transform: translateY(12px) scale(0.97); opacity: 0; } to { transform: none; opacity: 1; } }
+.lead-modal-icon { width: 64px; height: 64px; margin: 0 auto 18px; border-radius: 50%; background: var(--accent-light); display: flex; align-items: center; justify-content: center; font-size: 30px; }
+.lead-modal-card h3 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.6rem; color: var(--text); font-family: 'Roboto Condensed', sans-serif; }
+.lead-modal-card p { font-size: 0.95rem; color: var(--text-secondary); line-height: 1.5; margin-bottom: 1.5rem; }
+.lead-modal-close { background: var(--accent); color: #fff; border: none; border-radius: 100px; padding: 0.8rem 2rem; font-family: inherit; font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: background 0.2s; }
+.lead-modal-close:hover { background: var(--accent-hover); }

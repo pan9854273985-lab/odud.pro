@@ -436,9 +436,10 @@
       const btn = form.querySelector('button[type=submit]');
       const status = document.getElementById('cfStatus');
       const payload = {
-        name: f.name.value, company: f.company.value, email: f.email.value,
+        name: f.name.value, company: f.company.value, telegram: f.telegram.value,
         count: f.count.value, comment: f.comment.value,
         website: f.website ? f.website.value : '',
+        elapsedMs: Date.now() - (window.__leadFormLoad || 0),
         source: location.hostname, page: location.href
       };
       const orig = btn.textContent;
@@ -448,17 +449,20 @@
         const r = await fetch('/api/lead', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
         if (!r.ok) throw new Error('bad');
         form.reset();
-        btn.textContent = 'Заявка отправлена ✓';
-        if (status) status.textContent = 'Спасибо! Свяжемся с тобой в течение дня.';
+        btn.disabled = false; btn.textContent = orig;
+        showLeadModal();
         if (window.ym) ym(108214180, 'reachGoal', 'company_request');
       } catch (e) {
-        const body = 'Имя: ' + payload.name + '\nКомпания: ' + payload.company + '\nEmail: ' + payload.email +
+        const body = 'Имя: ' + payload.name + '\nКомпания: ' + payload.company + '\nTelegram: ' + payload.telegram +
           '\nСотрудников: ' + (payload.count || '—') + '\nКомментарий: ' + (payload.comment || '—');
         window.location.href = 'mailto:pan9854273985@gmail.com?subject=' + encodeURIComponent('Заявка на оплату курса от компании') + '&body=' + encodeURIComponent(body);
         btn.disabled = false; btn.textContent = orig;
       }
       return false;
     }
+    window.__leadFormLoad = Date.now();
+    function showLeadModal() { var m = document.getElementById('leadModal'); if (m) m.hidden = false; }
+    function closeLeadModal() { var m = document.getElementById('leadModal'); if (m) m.hidden = true; }
 
     (function() {
       const pages = document.querySelectorAll('.review-page');
@@ -728,7 +732,7 @@
             <input type="text" name="company" placeholder="Компания" required />
           </div>
           <div class="cf-row">
-            <input type="email" name="email" placeholder="Email для счёта" required />
+            <input type="text" name="telegram" placeholder="Telegram для связи (@username)" required />
             <input type="text" name="count" placeholder="Сколько сотрудников (необязательно)" />
           </div>
           <textarea name="comment" placeholder="Комментарий (необязательно)" rows="3"></textarea>
@@ -768,6 +772,16 @@
     <p>© 2026 ProductOdud · Автор: <a href="https://t.me/productodud" target="_blank" rel="noopener">Евгения Одуд</a> · <a href="start.html">Инструкция по установке</a> · <a href="oferta.html">Оферта</a> · <a href="privacy.html">Конфиденциальность</a></p>
     <p style="margin-top:0.5rem; font-size:0.75rem; opacity:0.5;">Курс создан независимо от Anthropic, PBC. Claude® и Claude Code® — зарегистрированные торговые марки Anthropic, PBC. ProductOdud не является партнёром, аффилиатом или официальным представителем Anthropic. Anthropic не несёт ответственности за содержание курса и не проверяла его материалы.</p>
   </footer>
+
+  <!-- Success modal -->
+  <div class="lead-modal" id="leadModal" hidden onclick="if(event.target===this)closeLeadModal()">
+    <div class="lead-modal-card">
+      <div class="lead-modal-icon">✅</div>
+      <h3>Заявка отправлена!</h3>
+      <p>Спасибо! Свяжемся с тобой в течение дня в Telegram.</p>
+      <button class="lead-modal-close" onclick="closeLeadModal()">Хорошо</button>
+    </div>
+  </div>
 
 </body>
 </html>

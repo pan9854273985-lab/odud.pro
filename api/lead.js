@@ -17,9 +17,6 @@ export default async function handler(req, res) {
   if (typeof b === 'string') { try { b = JSON.parse(b); } catch { b = {}; } }
   b = b || {};
 
-  // honeypot — bots fill hidden fields, humans don't
-  if (b.website) return res.status(200).json({ ok: true });
-
   const clip = (v, n) => (v == null ? '' : String(v)).slice(0, n).trim();
   const name = clip(b.name, 200);
   const email = clip(b.email, 200);
@@ -28,9 +25,19 @@ export default async function handler(req, res) {
   const company = clip(b.company, 200);
   const count = clip(b.count, 100);
   const comment = clip(b.comment, 1500);
-  // site + page: prefer explicit body values, fall back to request headers
   const source = clip(b.source, 120) || clip(req.headers['host'], 120) || 'сайт';
   const page = clip(b.page, 300) || clip(req.headers['referer'], 300) || '';
+
+  // ── anti-spam (respond 200 so bots get no signal, but don't notify) ──
+  // 1) honeypot — hidden field only bots fill
+  if (b.website) return res.status(200).json({ ok: true });
+  // 2) time-trap — a human can't fill and submit in under ~2.5s
+  const elapsed = Number(b.elapsedMs || 0);
+  if (elapsed > 0 && elapsed < 2500) return res.status(200).json({ ok: true });
+  // 3) link-spam — most spam stuffs URLs into the text fields
+  if (/(https?:\/\/|\[url|<a\s|\bwww\.)/i.test(name + ' ' + company + ' ' + comment)) {
+    return res.status(200).json({ ok: true });
+  }
 
   // need a name and at least one way to get back to them
   if (!name || (!email && !phone && !telegram)) {
@@ -43,9 +50,9 @@ export default async function handler(req, res) {
   if (page) lines.push('📄 Страница: ' + page);
   lines.push('');
   lines.push('👤 Имя: ' + name);
-  if (email) lines.push('✉️ Email: ' + email);
-  if (phone) lines.push('📞 Телефон: ' + phone);
   if (telegram) lines.push('💬 Telegram: ' + telegram);
+  if (phone) lines.push('📞 Телефон: ' + phone);
+  if (email) lines.push('✉️ Email: ' + email);
   if (company) lines.push('🏢 Компания: ' + company);
   if (count) lines.push('👥 Сотрудников: ' + count);
   if (comment) lines.push('📝 Комментарий: ' + comment);
