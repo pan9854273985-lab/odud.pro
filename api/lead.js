@@ -120,7 +120,7 @@ export default async function handler(req, res) {
       '</div>';
     const cc = (process.env.LEAD_CC || '').split(',').map((s) => s.trim()).filter(Boolean);
     const mail = {
-      from: 'Евгения Одуд <hello@odud.pro>',
+      from: courseName + ' <hello@odud.pro>',
       to: [email],
       reply_to: 'hello@odud.pro',
       subject: 'Заявка получена — оформим счёт на юрлицо',
