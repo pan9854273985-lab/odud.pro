@@ -80,7 +80,7 @@ export default async function handler(req, res) {
       'Заявка': { title: [{ text: { content: (company || name || 'Заявка').slice(0, 200) } }] },
       'Статус': { select: { name: 'Новая' } },
       'Компания': rt(company),
-      'Контакт': rt(telegram || phone || email),
+      'Контакт': rt([email, telegram, phone].filter(Boolean).join(' · ')),
       'Сотрудников': rt(count),
       'Комментарий': rt(comment),
       'Источник': { select: { name: notionSource } },
@@ -97,6 +97,32 @@ export default async function handler(req, res) {
         body: JSON.stringify({ parent: { database_id: NOTION_DB_ID }, properties: props }),
       });
       notionOk = nr.ok;
+    } catch (e) { /* best-effort */ }
+  }
+
+  // ── 3) Acknowledgment email to the lead via Resend (best-effort) ──
+  const resendKey = process.env.RESEND_API_KEY;
+  if (resendKey && email && /.+@.+\..+/.test(email)) {
+    const safe = (s) => String(s || '').replace(/[<>&]/g, '');
+    const html =
+      '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#222;line-height:1.6">' +
+      '<p>Здравствуйте' + (name ? ', ' + safe(name) : '') + '!</p>' +
+      '<p>Спасибо за заявку на курс — мы её получили. Менеджер свяжется с вами в течение рабочего дня, ответит на вопросы и оформит счёт на компанию.</p>' +
+      (telegram ? '<p>Продублировали, что твой Telegram для связи: ' + safe(telegram) + '.</p>' : '') +
+      '<p>Если что-то срочное — напишите в Telegram: <a href="https://t.me/productodud">@productodud</a>.</p>' +
+      '<p style="color:#888;margin-top:24px">С уважением,<br>Команда курса — Евгения Одуд и Мила Плющ</p>' +
+      '</div>';
+    try {
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + resendKey, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          from: 'Курсы CC Code <hello@odud.pro>',
+          to: [email],
+          subject: 'Заявка получена — скоро свяжемся',
+          html,
+        }),
+      });
     } catch (e) { /* best-effort */ }
   }
 

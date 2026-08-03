@@ -436,7 +436,7 @@
       const btn = form.querySelector('button[type=submit]');
       const status = document.getElementById('cfStatus');
       const payload = {
-        name: f.name.value, company: f.company.value, telegram: f.telegram.value,
+        name: f.name.value, company: f.company.value, email: f.email.value, telegram: f.telegram.value,
         count: f.count.value, comment: f.comment.value,
         website: f.website ? f.website.value : '',
         elapsedMs: Date.now() - (window.__leadFormLoad || 0),
@@ -732,8 +732,11 @@
             <input type="text" name="company" placeholder="Компания" required />
           </div>
           <div class="cf-row">
-            <input type="text" name="telegram" placeholder="Telegram для связи (@username)" required />
-            <input type="text" name="count" placeholder="Сколько сотрудников (необязательно)" />
+            <input type="email" name="email" placeholder="Email для связи" required />
+            <input type="text" name="telegram" placeholder="Telegram (@username, необязательно)" />
+          </div>
+          <div class="cf-row">
+            <input type="text" name="count" placeholder="Сколько сотрудников (необязательно)" style="grid-column:1 / -1" />
           </div>
           <textarea name="comment" placeholder="Комментарий (необязательно)" rows="3"></textarea>
           <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
