@@ -103,25 +103,30 @@ export default async function handler(req, res) {
   // ── 3) Acknowledgment email to the lead via Resend (best-effort) ──
   const resendKey = process.env.RESEND_API_KEY;
   if (resendKey && email && /.+@.+\..+/.test(email)) {
-    const safe = (s) => String(s || '').replace(/[<>&]/g, '');
+    const isMarketing = ['cc-code.marketing', 'odud.marketing'].some((s) => srcNorm.includes(s));
+    const courseName = isMarketing ? 'Claude Code и Codex для маркетологов' : 'Claude Code для продактов';
     const html =
       '<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;color:#222;line-height:1.6">' +
-      '<p>Здравствуйте' + (name ? ', ' + safe(name) : '') + '!</p>' +
-      '<p>Спасибо за заявку на курс — мы её получили. Менеджер свяжется с вами в течение рабочего дня, ответит на вопросы и оформит счёт на компанию.</p>' +
-      (telegram ? '<p>Продублировали, что твой Telegram для связи: ' + safe(telegram) + '.</p>' : '') +
-      '<p>Если что-то срочное — напишите в Telegram: <a href="https://t.me/productodud">@productodud</a>.</p>' +
-      '<p style="color:#888;margin-top:24px">С уважением,<br>Команда курса — Евгения Одуд и Мила Плющ</p>' +
+      '<p>Здравствуйте!</p>' +
+      '<p>Спасибо за интерес к нашему курсу «' + courseName + '». Получили ваш запрос с сайта на оплату через юрлицо.</p>' +
+      '<p>Добавляю в копию моего платёжного партнёра — Милу, она выставит счёт на юрлицо. Пришлите, пожалуйста, ответным письмом ИНН организации.</p>' +
+      '<p>После оплаты вышлем на email закрывающие документы (чек и акт при необходимости) и доступ к курсу.</p>' +
+      '<p style="color:#888;margin-top:20px">С уважением,<br>Евгения Одуд</p>' +
       '</div>';
+    const cc = (process.env.LEAD_CC || '').split(',').map((s) => s.trim()).filter(Boolean);
+    const mail = {
+      from: 'Евгения Одуд <hello@odud.pro>',
+      to: [email],
+      reply_to: 'hello@odud.pro',
+      subject: 'Заявка получена — оформим счёт на юрлицо',
+      html,
+    };
+    if (cc.length) mail.cc = cc;
     try {
       await fetch('https://api.resend.com/emails', {
         method: 'POST',
         headers: { 'Authorization': 'Bearer ' + resendKey, 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          from: 'Курсы CC Code <hello@odud.pro>',
-          to: [email],
-          subject: 'Заявка получена — скоро свяжемся',
-          html,
-        }),
+        body: JSON.stringify(mail),
       });
     } catch (e) { /* best-effort */ }
   }
