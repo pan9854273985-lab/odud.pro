@@ -9,6 +9,11 @@ const NOTION_DB_ID = '9f4e8ca03a014a839d2591cb8099290e';
 const NOTION_SOURCES = ['cc-code.marketing', 'odud.marketing', 'odud.pro', 'odud.online'];
 
 export default async function handler(req, res) {
+  // CORS — allow all our sites to POST to this single endpoint
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') { res.status(204).end(); return; }
   if (req.method !== 'POST') {
     return res.status(405).json({ ok: false, error: 'method_not_allowed' });
   }
